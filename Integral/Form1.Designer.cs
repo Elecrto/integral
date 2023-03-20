@@ -33,9 +33,12 @@
             // 
             // mainPanel
             // 
+            this.mainPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.mainPanel.Location = new System.Drawing.Point(5, 5);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(1600, 900);
+            this.mainPanel.Size = new System.Drawing.Size(500, 500);
             this.mainPanel.TabIndex = 0;
             this.mainPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.mainPanel_Paint);
             // 
@@ -47,6 +50,7 @@
             this.Controls.Add(this.mainPanel);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Resize += new System.EventHandler(this.resize);
             this.ResumeLayout(false);
 
         }

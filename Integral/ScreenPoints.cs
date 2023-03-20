@@ -26,14 +26,16 @@ namespace Integral
 
         public ScreenPoints(Decarts A, Size panel_size)
         {
-            double minY = -10;
-            double maxY = 10;
+            double minY = -100;
+            double maxY = 100;
             double indent = panel_size.Height / (maxY - minY);
-            this.Y = Convert.ToInt32((maxY - A.Y) * indent); double minX, maxX;
+            this.Y = Convert.ToInt32((-A.Y + maxY) * indent); 
+            double minX, maxX;
             maxX = panel_size.Width / (indent * 2);
             minX = -maxX;
-            this.X = Convert.ToInt32((maxX - A.X) * indent);
+            this.X = Convert.ToInt32((-A.X + maxX) * indent);
         }
+
 
         public Point toPoint(ScreenPoints A)
         {

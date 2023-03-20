@@ -15,5 +15,11 @@ namespace Integral
         {
             painter.paint();
         }
+
+        private void resize(object sender, EventArgs e)
+        {
+            mainPanel.Height = this.Height;
+            mainPanel.Width = this.Width;
+        }
     }
 }

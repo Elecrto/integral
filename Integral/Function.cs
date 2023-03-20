@@ -16,7 +16,7 @@ namespace Integral
 
      
 
-        public Function(double minY = -10, double maxY = 10, double minX = -16, double maxX = 16)
+        public Function(double minY = -100, double maxY = 100, double minX = -100, double maxX = 100)
         {
             this.minY = minY;
             this.maxY = maxY;

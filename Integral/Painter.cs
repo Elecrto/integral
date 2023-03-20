@@ -59,16 +59,30 @@ namespace Integral
             bg.Graphics.DrawLine(pen, containerSize.Width / 2, 0, containerSize.Width / 2, containerSize.Height);
             bg.Graphics.DrawLine(pen, 0, containerSize.Height / 2, containerSize.Width, containerSize.Height / 2);
 
-            bg.Render(mainGraphics);
             
 
-            //for (int i = eps; i <= containerSize.Width - eps; i+=eps)
-            //{
+            int step = 10;
 
-            //mainGraphics.DrawLine(pen, new Point(1,2), new Point(100, 200));
-            //}
+            for (int i = 0; i <= containerSize.Width - step; i+= step)
+            {
+
+                bg.Graphics.DrawLine(pen, i, find_y(i), i + step, find_y(i + step));
+            }
             //та самая последняя линия - не забыть!
 
+            bg.Render(mainGraphics);
+        }
+
+        private int find_y(int i)
+        {
+            Function f = new Function();
+
+            ScreenPoints xS = new ScreenPoints(i);
+            Decarts xD = new Decarts(xS, ContainerSize);
+            double y = f.func(xD.X);
+            Decarts yD = new Decarts(0, y);
+            ScreenPoints yS = new ScreenPoints(yD, ContainerSize);
+            return yS.Y;
         }
     }
 }

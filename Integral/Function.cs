@@ -16,7 +16,7 @@ namespace Integral
 
      
 
-        public Function(double minY = -100, double maxY = 100, double minX = -100, double maxX = 100)
+        public Function(double minX = -10, double maxX = 10, double minY = -10, double maxY = 10)
         {
             this.minY = minY;
             this.maxY = maxY;
@@ -26,7 +26,7 @@ namespace Integral
 
         public double func(double x)
         {
-            return x * x;
+            return Math.Cos(x);
         }
         public Decarts point(double x)
         {

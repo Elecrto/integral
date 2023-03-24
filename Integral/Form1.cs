@@ -7,7 +7,7 @@ namespace Integral
         public Form1()
         {
             InitializeComponent();
-            painter= new Painter(mainPanel.CreateGraphics());
+            painter = new Painter(mainPanel.CreateGraphics());
 
         }
 
@@ -20,6 +20,8 @@ namespace Integral
         {
             mainPanel.Height = this.Height;
             mainPanel.Width = this.Width;
+            painter = new Painter(mainPanel.CreateGraphics());
+            painter.paint();
         }
     }
 }

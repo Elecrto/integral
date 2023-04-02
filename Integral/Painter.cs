@@ -8,6 +8,8 @@ namespace Integral
 {
     internal class Painter
     {
+        public double S = 0.0;
+        public int X_MIN, X_MAX, Y_MIN, Y_MAX, ACC;
         private object locker = new();
         private Size containerSize;
         private Thread t;
@@ -46,31 +48,65 @@ namespace Integral
             this.MainGraphics = mainGraphics;
         }
 
-        public void paint() {
-
+        public void paint()
+        {
             bg.Graphics.Clear(Color.White);
-
-            //ScreenPoints eps = new ScreenPoints(2);
-            int eps = 2;
-            //Function f = new Function(-2, 2);
-
-            //Pen pen = new Pen(Color.Black);
-
-
-
-
-
-            Function f = new Function(-10, 10, -10, 10);
+            Function f = new Function(X_MIN, X_MAX, Y_MIN, Y_MAX);
             showAxes(f);
 
-            int step = 10;
+            int step = ACC;
 
             for (int i = 0; i <= containerSize.Width - step; i+= step)
             {
 
                 bg.Graphics.DrawLine(pen, i, find_y(f,i), i + step, find_y(f,i + step));
             }
-            //та самая последняя линия - не забыть!
+
+            for (int i = 0; i <= containerSize.Width - step; i += step)
+            {
+                Decarts s;
+                bg.Graphics.DrawLine(pen, i, containerSize.Height/2, i, find_y(f, i));
+                if(find_y(f, i) < containerSize.Height / 2 && find_y(f, i+step) < containerSize.Height / 2)
+                {
+                    if (find_y(f, i) > find_y(f, i + step))
+                    {
+                        bg.Graphics.DrawLine(pen, i, find_y(f, i), i + step, find_y(f, i));
+
+                        s = find_y(f,i,step);
+                        S += (-f.maxX + s.X) * s.Y;
+                    }
+                    else
+                    {
+                        bg.Graphics.DrawLine(pen, i, find_y(f, i + step), i + step, find_y(f, i + step));
+                        
+                        s = find_y(f, i, step);
+                        S += (-f.maxX + s.X) * s.Y;
+                    }
+                }
+                else if(find_y(f, i) > containerSize.Height / 2 && find_y(f, i + step) > containerSize.Height / 2)
+                {
+                    if (find_y(f, i) < find_y(f, i + step))
+                    {
+                        bg.Graphics.DrawLine(pen, i, find_y(f, i), i + step, find_y(f, i));
+                        
+                        s = find_y(f, i, step);
+                        S += (-f.maxX + s.X) * s.Y;
+                    }
+                    else
+                    {
+                        bg.Graphics.DrawLine(pen, i, find_y(f, i + step), i + step, find_y(f, i + step));
+                        
+                        s = find_y(f, i, step);
+                        S += (-f.maxX + s.X) * s.Y;
+                    }
+                }
+                else
+                {
+                    bg.Graphics.DrawLine(pen, i, containerSize.Height / 2, i + step, containerSize.Height / 2);
+                    s = find_y(f, i, step);
+                    S += (-f.maxX + s.X) * s.Y;
+                }
+            }
 
             bg.Graphics.DrawLine(pen, containerSize.Width - step, find_y(f, containerSize.Width - step),
                 containerSize.Width, find_y(f, containerSize.Width));
@@ -86,6 +122,15 @@ namespace Integral
             Decarts yD = new Decarts(0, y);
             ScreenPoints yS = new ScreenPoints(yD, ContainerSize, f);
             return yS.Y;
+        }
+        private Decarts find_y(Function f, int i, int x)
+        {
+
+            ScreenPoints xS = new ScreenPoints(i,x);
+            Decarts xD = new Decarts(xS, ContainerSize, f);
+            double y = f.func(xD.X);
+            Decarts yD = new Decarts(xD.Y, y);
+            return yD;
         }
 
         private void showAxes(Function f)
